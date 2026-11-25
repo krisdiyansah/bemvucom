@@ -1,0 +1,17 @@
+{
+  "name": "bemvu-personal-finance-ledger",
+  "version": "1.0.0",
+  "description": "Bemvu - Personal Finance Ledger dengan pencatatan harian, log per akun, grafik bulanan, dan AI Insight.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/api.test.js"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.2.1",
+    "nodemailer": "^10.6.1"
+  }
+}

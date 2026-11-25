@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bemvu — Personal Finance Ledger</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Slab:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+  <div id="session-loading" class="session-loading" role="status" aria-live="polite">
+    <strong class="session-loading-brand">Bemvu</strong>
+    <span class="session-loading-spinner" aria-hidden="true"></span>
+    <span data-i18n="loadingApp">Memuat Bemvu...</span>
+  </div>
+
+  <!-- AUTH VIEW -->
+  <main id="auth-screen" class="auth-screen" hidden>
+    <div class="auth-toolbar">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" class="lang-btn active js-lang-btn" data-lang="id">ID</button>
+        <button type="button" class="lang-btn js-lang-btn" data-lang="en">EN</button>
+      </div>
+      <button type="button" class="btn btn-outline btn-sm js-theme-btn">
+        <span class="js-theme-icon">&#9790;</span>
+        <span class="js-theme-label" data-i18n="themeDark">Gelap</span>
+      </button>
+    </div>
+
+    <div class="auth-shell">
+      <section class="auth-brand-panel">
+        <div class="brand-lockup brand-lockup-lg">
+          <svg class="brand-mark" width="64" height="64" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+            <rect x="4" y="4" width="92" height="92" rx="22" fill="#0F1E36"/>
+            <path d="M35 23V77M35 23H53C61.5 23 67 28.2 67 36C67 43.8 61.5 49 53 49H35" stroke="#FFFFFF" stroke-width="10.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M35 50H56C65 50 70.5 55.6 70.5 64C70.5 72.4 65 78 56 78H35" stroke="#22D38B" stroke-width="10.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="brand-text">
+            <span class="brand-name">Bemvu</span>
+            <span class="brand-sub">PERSONAL FINANCE LEDGER</span>
+          </div>
+        </div>
+
+        <h1 class="auth-hero-title" data-i18n="authHeroTitle">Catat arus kas harian lebih rapi, pantau grafik bulanan, dan dapatkan arahan bijak dari AI.</h1>
+        <p class="auth-hero-desc" data-i18n="authHeroDesc">
+          Optimalkan pengelolaan keuangan Anda melalui pencatatan harian, analisis tren bulanan, dan wawasan cerdas berbasis AI.
+        </p>
+
+        <div class="auth-feature-list">
+          <div class="auth-feature-item">
+            <span class="feature-dot"></span>
+            <div>
+              <strong data-i18n="feat1Title">Log Harian Per Akun</strong>
+              <p data-i18n="feat1Desc">Data terisolasi per pengguna dengan riwayat aktivitas lengkap &amp; ekspor CSV.</p>
+            </div>
+          </div>
+          <div class="auth-feature-item">
+            <span class="feature-dot"></span>
+            <div>
+              <strong data-i18n="feat2Title">Rekapan &amp; Grafik Bulanan</strong>
+              <p data-i18n="feat2Desc">Visualisasi pemasukan, pengeluaran, tren 6 bulan, dan komposisi kategori.</p>
+            </div>
+          </div>
+          <div class="auth-feature-item">
+            <span class="feature-dot"></span>
+            <div>
+              <strong data-i18n="feat3Title">Bemvu AI Financial Insight</strong>
+              <p data-i18n="feat3Desc">Skor kesehatan keuangan, audit 50/30/20, analisis grafik, dan tanya jawab AI.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="auth-card">
+        <div class="auth-tabs" role="tablist">
+          <button id="tab-login" class="auth-tab active" type="button" role="tab" aria-selected="true" data-i18n="tabLogin">Masuk</button>
+          <button id="tab-register" class="auth-tab" type="button" role="tab" aria-selected="false" data-i18n="tabRegister">Daftar Akun</button>
+        </div>
+
+        <form id="login-form" class="auth-form">
+          <div class="form-header">
+            <h2 data-i18n="loginTitle">Selamat Datang Kembali</h2>
+            <p data-i18n="loginSub">Masuk ke akun Bemvu Anda untuk melanjutkan catatan harian.</p>
+          </div>
+          <div class="field">
+            <label for="login-channel" data-i18n="authMethodLabel">Metode masuk</label>
+            <div id="login-channel-wrap" class="auth-method-select" data-channel="email">
+              <span class="auth-method-icon auth-method-icon-email" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none">
+                  <path d="M6 13v23a3 3 0 0 0 3 3h30a3 3 0 0 0 3-3V13" stroke="#DADCE0" stroke-width="3"/>
+                  <path d="M6 13v23" stroke="#4285F4" stroke-width="4"/>
+                  <path d="M42 13v23" stroke="#34A853" stroke-width="4"/>
+                  <path d="m6 13 18 14 18-14" stroke="#EA4335" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M6 36v-7l7 5" stroke="#FBBC04" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <span class="auth-method-icon auth-method-icon-whatsapp" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path fill="#25D366" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/>
+                  <path fill="#fff" d="M9.1 7.3c-.2-.5-.5-.5-.8-.5h-.7c-.2 0-.6.1-.9.4-.3.4-1.1 1.1-1.1 2.6s1.1 3 1.3 3.2c.2.2 2.1 3.3 5.2 4.5 2.6 1 3.1.8 3.7.7.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5-.1-.1-.3-.2-.7-.4l-2.1-1c-.3-.1-.5-.2-.7.2-.2.4-.8 1-1 1.2-.2.2-.4.2-.7.1-.4-.2-1.5-.6-2.8-1.8-1-.9-1.7-2-1.9-2.3-.2-.4 0-.5.1-.7l.5-.6.3-.5c.1-.2 0-.4 0-.6L9.1 7.3Z"/>
+                </svg>
+              </span>
+              <select id="login-channel">
+                <option value="email" data-i18n="emailLoginMethod">Email dan kata sandi</option>
+                <option value="whatsapp" data-i18n="whatsappOtpMethod">Nomor WhatsApp dan kata sandi</option>
+              </select>
+            </div>
+          </div>
+          <div id="login-email-fields" class="auth-form-group">
+            <div class="field">
+              <label for="login-email" data-i18n="emailLabel">Email</label>
+              <input id="login-email" type="email" required data-i18n-ph="emailPh" placeholder="nama@email.com" autocomplete="email" />
+            </div>
+            <div class="field">
+              <label for="login-password" data-i18n="passwordLabel">Kata Sandi</label>
+              <div class="password-input-wrap">
+                <input id="login-password" type="password" required data-i18n-ph="passwordPh" placeholder="Minimal 6 karakter" autocomplete="current-password" />
+                <button class="password-toggle js-password-toggle" type="button" data-target="login-password" data-i18n-show="showPassword" data-i18n-hide="hidePassword" aria-label="Tampilkan kata sandi" title="Tampilkan kata sandi" aria-pressed="false">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                    <path class="password-eye-slash" d="m4 4 16 16"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div id="login-whatsapp-fields" class="auth-form-group" hidden>
+            <div class="field">
+              <label for="login-phone" data-i18n="whatsappNumberLabel">Nomor WhatsApp</label>
+              <input id="login-phone" type="tel" inputmode="tel" data-i18n-ph="whatsappNumberPh" placeholder="+62 812 3456 7890" autocomplete="tel" />
+              <small data-i18n="phoneNumberHint">Gunakan nomor WhatsApp dengan kode negara.</small>
+            </div>
+            <div class="field">
+              <label for="login-phone-password" data-i18n="passwordLabel">Kata Sandi</label>
+              <div class="password-input-wrap">
+                <input id="login-phone-password" type="password" data-i18n-ph="passwordPh" placeholder="Minimal 6 karakter" autocomplete="current-password" />
+                <button class="password-toggle js-password-toggle" type="button" data-target="login-phone-password" data-i18n-show="showPassword" data-i18n-hide="hidePassword" aria-label="Tampilkan kata sandi" title="Tampilkan kata sandi" aria-pressed="false">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                    <path class="password-eye-slash" d="m4 4 16 16"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="auth-secondary-actions">
+              <small data-i18n="noOtpSecurityNotice">Email atau nomor tidak diverifikasi dengan OTP. Gunakan kata sandi yang kuat.</small>
+            </div>
+          </div>
+          <div class="auth-forgot-row">
+            <button id="forgot-password-btn" class="auth-link" type="button" data-i18n="forgotPasswordBtn">Lupa kata sandi?</button>
+          </div>
+          <p id="login-error" class="form-error" hidden></p>
+          <button class="btn btn-primary btn-full" type="submit" data-i18n="loginBtn">Masuk ke Bemvu</button>
+        </form>
+
+        <form id="password-reset-form" class="auth-form" hidden>
+          <div class="form-header">
+            <h2 data-i18n="resetPasswordTitle">Atur Ulang Kata Sandi</h2>
+            <p data-i18n="resetPasswordSub">Atur ulang kata sandi melalui email atau WhatsApp.</p>
+          </div>
+          <div id="reset-email-fields" class="auth-form-group">
+            <div class="field">
+              <label for="reset-channel" data-i18n="authMethodLabel">Metode pemulihan</label>
+              <select id="reset-channel">
+                <option value="email" data-i18n="emailRecoveryMethod">Email (atur ulang kata sandi)</option>
+                <option value="whatsapp" data-i18n="whatsappRecoveryMethod">WhatsApp (atur ulang kata sandi)</option>
+              </select>
+            </div>
+            <div id="reset-email-field" class="field">
+              <label for="reset-email" data-i18n="emailLabel">Email</label>
+              <input id="reset-email" type="email" required data-i18n-ph="emailPh" placeholder="nama@email.com" autocomplete="email" />
+            </div>
+            <div id="reset-phone-field" class="field" hidden>
+              <label for="reset-phone" data-i18n="whatsappNumberLabel">Nomor WhatsApp</label>
+              <input id="reset-phone" type="tel" inputmode="tel" data-i18n-ph="whatsappNumberPh" placeholder="+62 812 3456 7890" autocomplete="tel" disabled />
+            </div>
+          </div>
+          <div id="reset-code-fields" class="auth-form-group" hidden>
+            <p id="reset-otp-status" class="card-sub" data-i18n="resetOtpInstructions">Jika akun terdaftar, kode OTP akan dikirim ke email tersebut.</p>
+            <div class="field">
+              <label for="reset-otp" data-i18n="otpCodeLabel">Kode OTP 6 Digit</label>
+              <input id="reset-otp" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" data-i18n-ph="otpCodePh" placeholder="Masukkan kode OTP" required disabled />
+            </div>
+            <div id="reset-password-field" class="field">
+              <label for="reset-new-password" data-i18n="newPasswordLabel">Kata Sandi Baru</label>
+              <div class="password-input-wrap">
+                <input id="reset-new-password" type="password" minlength="6" data-i18n-ph="newPasswordPh" placeholder="Minimal 6 karakter" autocomplete="new-password" required disabled />
+                <button class="password-toggle js-password-toggle" type="button" data-target="reset-new-password" data-i18n-show="showPassword" data-i18n-hide="hidePassword" aria-label="Tampilkan kata sandi" title="Tampilkan kata sandi" aria-pressed="false">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                    <path class="password-eye-slash" d="m4 4 16 16"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="auth-secondary-actions">
+              <button id="reset-resend-btn" class="btn btn-outline btn-sm" type="button" data-i18n="resendCodeBtn">Kirim ulang kode</button>
+            </div>
+          </div>
+          <div class="auth-secondary-actions">
+            <button id="reset-cancel-btn" class="auth-link" type="button" data-i18n="backToLoginBtn">Kembali ke login</button>
+          </div>
+          <p id="reset-error" class="form-error" hidden></p>
+          <button id="reset-submit-btn" class="btn btn-primary btn-full" type="submit" data-i18n="sendResetCodeBtn">Kirim kode reset</button>
+        </form>
+
+        <form id="register-form" class="auth-form" hidden>
+          <div class="form-header">
+            <h2 data-i18n="regTitle">Buat Akun Baru</h2>
+            <p data-i18n="regSub">Mulai log keuangan pribadi Anda yang tersimpan aman di database.</p>
+          </div>
+          <div id="register-fields" class="auth-form-group">
+            <div class="field">
+              <label for="reg-name" data-i18n="fullNameLabel">Nama Lengkap</label>
+              <input id="reg-name" type="text" required minlength="2" data-i18n-ph="fullNamePh" placeholder="Contoh: Raka Pratama" autocomplete="name" />
+            </div>
+            <div class="field">
+              <label for="register-channel" data-i18n="authMethodLabel">Metode pendaftaran</label>
+              <div id="register-channel-wrap" class="auth-method-select" data-channel="email">
+                <span class="auth-method-icon auth-method-icon-email" aria-hidden="true">
+                  <svg viewBox="0 0 48 48" fill="none">
+                    <path d="M6 13v23a3 3 0 0 0 3 3h30a3 3 0 0 0 3-3V13" stroke="#DADCE0" stroke-width="3"/>
+                    <path d="M6 13v23" stroke="#4285F4" stroke-width="4"/>
+                    <path d="M42 13v23" stroke="#34A853" stroke-width="4"/>
+                    <path d="m6 13 18 14 18-14" stroke="#EA4335" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M6 36v-7l7 5" stroke="#FBBC04" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="auth-method-icon auth-method-icon-whatsapp" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path fill="#25D366" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/>
+                    <path fill="#fff" d="M9.1 7.3c-.2-.5-.5-.5-.8-.5h-.7c-.2 0-.6.1-.9.4-.3.4-1.1 1.1-1.1 2.6s1.1 3 1.3 3.2c.2.2 2.1 3.3 5.2 4.5 2.6 1 3.1.8 3.7.7.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5-.1-.1-.3-.2-.7-.4l-2.1-1c-.3-.1-.5-.2-.7.2-.2.4-.8 1-1 1.2-.2.2-.4.2-.7.1-.4-.2-1.5-.6-2.8-1.8-1-.9-1.7-2-1.9-2.3-.2-.4 0-.5.1-.7l.5-.6.3-.5c.1-.2 0-.4 0-.6L9.1 7.3Z"/>
+                  </svg>
+                </span>
+                <select id="register-channel">
+                  <option value="email" data-i18n="emailRegisterMethod">Email dan kata sandi</option>
+                  <option value="whatsapp" data-i18n="whatsappOtpMethod">Nomor WhatsApp dan kata sandi</option>
+                </select>
+              </div>
+            </div>
+            <div id="register-email-fields" class="auth-form-group">
+              <div class="field">
+                <label for="reg-email" data-i18n="emailLabel">Email</label>
+                <input id="reg-email" type="email" required data-i18n-ph="emailPh" placeholder="nama@email.com" autocomplete="email" />
+              </div>
+              <div class="field">
+                <label for="reg-password" data-i18n="passwordLabel">Kata Sandi</label>
+                <div class="password-input-wrap">
+                  <input id="reg-password" type="password" required minlength="6" data-i18n-ph="passwordPh" placeholder="Minimal 6 karakter" autocomplete="new-password" />
+                  <button class="password-toggle js-password-toggle" type="button" data-target="reg-password" data-i18n-show="showPassword" data-i18n-hide="hidePassword" aria-label="Tampilkan kata sandi" title="Tampilkan kata sandi" aria-pressed="false">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                      <path class="password-eye-slash" d="m4 4 16 16"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div id="register-whatsapp-fields" class="auth-form-group" hidden>
+              <div class="field">
+                <label for="reg-phone" data-i18n="whatsappNumberLabel">Nomor WhatsApp</label>
+                <input id="reg-phone" type="tel" inputmode="tel" data-i18n-ph="whatsappNumberPh" placeholder="+62 812 3456 7890" autocomplete="tel" disabled />
+                <small data-i18n="phoneNumberHint">Gunakan nomor WhatsApp dengan kode negara.</small>
+              </div>
+              <div class="field">
+                <label for="reg-phone-password" data-i18n="passwordLabel">Kata Sandi</label>
+                <div class="password-input-wrap">
+                  <input id="reg-phone-password" type="password" minlength="6" data-i18n-ph="passwordPh" placeholder="Minimal 6 karakter" autocomplete="new-password" disabled />
+                  <button class="password-toggle js-password-toggle" type="button" data-target="reg-phone-password" data-i18n-show="showPassword" data-i18n-hide="hidePassword" aria-label="Tampilkan kata sandi" title="Tampilkan kata sandi" aria-pressed="false">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                      <path class="password-eye-slash" d="m4 4 16 16"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <small data-i18n="noOtpSecurityNotice">Email atau nomor tidak diverifikasi dengan OTP. Gunakan kata sandi yang kuat.</small>
+            <div class="field">
+              <label for="reg-budget" data-i18n="regBudgetLabel">Target Batas Pengeluaran Bulanan (Opsional)</label>
+              <input id="reg-budget" type="number" min="0" step="1" data-i18n-ph="regBudgetPh" placeholder="Contoh: 5000000" />
+            </div>
+          </div>
+          <p id="register-error" class="form-error" hidden></p>
+          <button id="register-submit-btn" class="btn btn-emerald btn-full" type="submit" data-i18n="registerBtn">Daftar &amp; Mulai Catat</button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <!-- APP SHELL -->
+  <div id="app-screen" class="app-screen" hidden>
+    <div id="user-watermark" class="user-watermark" aria-hidden="true"></div>
+    <div id="save-loading" class="save-loading" role="status" aria-live="polite" hidden>
+      <div class="save-loading-card">
+        <span class="save-loading-spinner" aria-hidden="true"></span>
+        <strong data-i18n="savingData">Menyimpan data, mohon tunggu...</strong>
+        <div class="save-loading-progress" aria-hidden="true"><span></span></div>
+      </div>
+    </div>
+    <aside class="app-sidebar" id="app-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-lockup brand-lockup-sm">
+          <svg class="brand-mark" width="46" height="46" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+            <rect x="4" y="4" width="92" height="92" rx="22" fill="#0F1E36"/>
+            <path d="M35 23V77M35 23H53C61.5 23 67 28.2 67 36C67 43.8 61.5 49 53 49H35" stroke="#FFFFFF" stroke-width="10.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M35 50H56C65 50 70.5 55.6 70.5 64C70.5 72.4 65 78 56 78H35" stroke="#22D38B" stroke-width="10.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="brand-text">
+            <span class="brand-name">Bemvu</span>
+            <span class="brand-sub">PERSONAL FINANCE LEDGER</span>
+          </div>
+        </div>
+      </div>
+
+      <span class="sidebar-section-label" data-i18n="sidebarMenu">MENU</span>
+      <nav class="main-nav" id="main-nav" aria-label="Navigasi Utama">
+        <button class="nav-pill active" data-view="daily" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/>
+          </svg>
+          <span data-i18n="navDaily">Catat &amp; Log Harian</span>
+        </button>
+        <button class="nav-pill" data-view="recap" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 19h16"/><path d="M7 16V9M12 16V5M17 16v-4"/>
+          </svg>
+          <span data-i18n="navRecap">Rekapan &amp; Grafik</span>
+        </button>
+        <button class="nav-pill" data-view="budgets" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/><path d="M16 16h.01"/>
+          </svg>
+          <span data-i18n="navBudgets">Anggaran</span>
+        </button>
+        <button class="nav-pill" data-view="debts" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 7h18v13H3z"/><path d="M3 10h18"/><path d="M7 15h4"/>
+          </svg>
+          <span data-i18n="navDebts">Hutang &amp; Piutang</span>
+        </button>
+        <button class="nav-pill" data-view="wallets" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 6h16v14H4z"/><path d="M4 6V4h13"/><path d="M16 13h4"/><circle cx="16" cy="13" r="1"/>
+          </svg>
+          <span data-i18n="navWallets">Dompet &amp; Rekening</span>
+        </button>
+        <button class="nav-pill" data-view="investments" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3v9h9"/><path d="M20.5 15A9 9 0 1 1 9 3.5"/>
+          </svg>
+          <span data-i18n="navInvestments">Investasi</span>
+        </button>
+        <button class="nav-pill" data-view="goals" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>
+          </svg>
+          <span data-i18n="navGoals">Target Tabungan</span>
+        </button>
+        <button class="nav-pill" data-view="recurring" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12a9 9 0 0 1 15-6l2 2"/><path d="M20 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6l-2-2"/><path d="M4 21v-5h5"/>
+          </svg>
+          <span data-i18n="navRecurring">Tagihan Rutin</span>
+        </button>
+        <button class="nav-pill" data-view="ai" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m12 3 2.2 6.1L20 11l-5.8 1.9L12 19l-2.2-6.1L4 11l5.8-1.9L12 3Z"/>
+            <path d="m19 16 .8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16Z"/>
+          </svg>
+          <span data-i18n="navAi">AI Insight</span>
+        </button>
+        <button class="nav-pill" data-view="logs" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 4h14v16H5z"/><path d="M9 8h6M9 12h6M9 16h3"/>
+          </svg>
+          <span data-i18n="navLogs">Log Aktivitas</span>
+        </button>
+        <button class="nav-pill" data-view="settings" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.7a8 8 0 0 1-1.7 1l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.7-1l-1.7.7-1.4-2.4L7.3 15a8 8 0 0 1 0-2l-1.4-1.1 1.4-2.4 1.7.7a8 8 0 0 1 1.7-1l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.7 1l1.7-.7 1.4 2.4-1.4 1.1a8 8 0 0 1-.1 2Z"/>
+          </svg>
+          <span data-i18n="navSettings">Pengaturan</span>
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <span class="sidebar-footer-dot"></span>
+        <span data-i18n="sidebarFooter">Keuangan lebih tertata</span>
+      </div>
+    </aside>
+    <button id="sidebar-backdrop" class="sidebar-backdrop" type="button" aria-label="Tutup menu" hidden></button>
+
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar-inner">
+        <div class="topbar-actions">
+          <button class="topbar-menu-btn" id="topbar-menu-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="app-sidebar">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <line x1="3" y1="6" x2="19" y2="6"/>
+              <line x1="3" y1="11" x2="19" y2="11"/>
+              <line x1="3" y1="16" x2="19" y2="16"/>
+            </svg>
+          </button>
+          <div class="month-picker-wrap">
+            <button id="prev-month-btn" class="icon-btn" type="button">&#8249;</button>
+            <input id="month-picker" type="month" aria-label="Pilih bulan laporan" />
+            <button id="next-month-btn" class="icon-btn" type="button">&#8250;</button>
+          </div>
+          <div class="lang-switch" role="group" aria-label="Language">
+            <button type="button" class="lang-btn active js-lang-btn" data-lang="id">ID</button>
+            <button type="button" class="lang-btn js-lang-btn" data-lang="en">EN</button>
+          </div>
+          <button type="button" class="btn btn-outline btn-sm js-theme-btn" title="Toggle theme">
+            <span class="js-theme-icon">&#9790;</span>
+            <span class="js-theme-label" data-i18n="themeDark">Gelap</span>
+          </button>
+          <div class="user-chip">
+            <div id="user-avatar" class="user-avatar">B</div>
+            <div class="user-meta">
+              <span id="user-display-name" class="user-name">Pengguna</span>
+              <span id="user-display-email" class="user-email">user@bemvu</span>
+            </div>
+          </div>
+          <button id="logout-btn" class="btn btn-outline btn-sm" type="button" data-i18n="logoutBtn">Keluar</button>
+        </div>
+      </div>
+      </header>
+
+      <div class="page-wrap">
+      <!-- KPI ROW -->
+      <section class="kpi-grid" aria-label="Ringkasan Keuangan">
+        <article class="kpi-card">
+          <span class="kpi-label"><span data-i18n="kpiIncomePrefix">Pemasukan</span> (<span class="js-month-label">-</span>)</span>
+          <strong id="kpi-income" class="kpi-value text-emerald">Rp 0</strong>
+          <span id="kpi-income-sub" class="kpi-sub">0</span>
+        </article>
+        <article class="kpi-card">
+          <span class="kpi-label"><span data-i18n="kpiExpensePrefix">Pengeluaran</span> (<span class="js-month-label">-</span>)</span>
+          <strong id="kpi-expense" class="kpi-value text-rose">Rp 0</strong>
+          <span id="kpi-expense-sub" class="kpi-sub">Rp 0</span>
+        </article>
+        <article class="kpi-card">
+          <span class="kpi-label" data-i18n="kpiNetLabel">Surplus / Defisit Bulan Ini</span>
+          <strong id="kpi-net" class="kpi-value">Rp 0</strong>
+          <span id="kpi-savings-rate" class="kpi-sub">0%</span>
+        </article>
+        <article class="kpi-card kpi-card-liquid">
+          <span class="kpi-label" data-i18n="kpiLiquidLabel">Sisa Saldo Likuid sebelum Investasi</span>
+          <strong id="kpi-liquid" class="kpi-value">Rp 0</strong>
+          <span class="kpi-sub" data-i18n="kpiLiquidSub">Pemasukan non-Jamsostek dikurangi pengeluaran selain investasi</span>
+        </article>
+        <article id="kpi-balance-debt" class="kpi-card kpi-card-navy">
+          <div class="kpi-cum-top">
+            <span class="kpi-label" data-i18n="kpiCumLabel">Saldo Kumulatif Akun</span>
+            <strong id="kpi-alltime" class="kpi-value">Rp 0</strong>
+            <span id="kpi-alltime-sub" class="kpi-sub">0</span>
+          </div>
+          <div class="kpi-debt-strip">
+            <div class="kpi-debt-head">
+              <span class="kpi-label" data-i18n="kpiDebtLabel">Sisa Hutang</span>
+              <button id="open-debt-modal-btn" class="btn-debt-chip" type="button" data-i18n="addDebtBtn">+ Catat Hutang</button>
+            </div>
+            <strong id="kpi-debt-remaining" class="kpi-debt-value">Rp 0</strong>
+            <span id="kpi-debt-sub" class="kpi-sub">Rp 0</span>
+          </div>
+        </article>
+      </section>
+
+      <!-- VIEW 1: DAILY INPUT & TRANSACTION LOG -->
+      <section id="view-daily" class="view-section">
+        <div class="daily-layout">
+          <aside class="card form-card">
+            <div class="card-head">
+              <div>
+                <h2 id="tx-form-title" data-i18n="txFormTitleAdd">Catat Transaksi Harian</h2>
+                <p class="card-sub" data-i18n="txFormSub">Otomatis tersimpan ke log database akun Anda.</p>
+              </div>
+              <button id="seed-demo-btn" class="btn btn-soft btn-xs" type="button" data-i18n="seedDemoBtn">Muat Data Contoh</button>
+            </div>
+
+            <form id="tx-form" class="tx-form">
+              <input type="hidden" id="tx-edit-id" value="" />
+              <div class="type-toggle" role="group" aria-label="Jenis transaksi">
+                <button id="type-expense-btn" class="type-btn active-expense" type="button" data-type="expense" data-i18n="typeExpense">Pengeluaran</button>
+                <button id="type-income-btn" class="type-btn" type="button" data-type="income" data-i18n="typeIncome">Pemasukan</button>
+              </div>
+
+              <div class="field">
+                <label for="tx-amount" data-i18n="amountLabel">Nominal (Rp)</label>
+                <input id="tx-amount" type="number" min="1" step="1" required data-i18n-ph="amountPh" placeholder="Contoh: 45000" />
+                <div class="quick-amounts">
+                  <button type="button" class="chip-btn" data-add-idr="10000">+10rb</button>
+                  <button type="button" class="chip-btn" data-add-idr="25000">+25rb</button>
+                  <button type="button" class="chip-btn" data-add-idr="50000">+50rb</button>
+                  <button type="button" class="chip-btn" data-add-idr="100000">+100rb</button>
+                  <button type="button" class="chip-btn" data-add-idr="500000">+500rb</button>
+                </div>
+              </div>
+
+              <div class="field-row">
+                <div class="field">
+                  <label for="tx-category" data-i18n="categoryLabel">Kategori</label>
+                  <select id="tx-category" required></select>
+                </div>
+                <div class="field">
+                  <label for="tx-date" data-i18n="dateLabel">Tanggal</label>
+                  <input id="tx-date" type="date" required />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="tx-method" data-i18n="methodLabel">Metode Pembayaran / Dompet</label>
+                <select id="tx-method">
+                  <option value="QRIS">QRIS</option>
+                  <option value="Tunai">Tunai</option>
+                  <option value="Transfer Bank">Transfer Bank</option>
+                  <option value="E-Wallet">E-Wallet</option>
+                  <option value="Kartu Debit">Kartu Debit</option>
+                  <option value="Auto-Debit">Auto-Debit</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="tx-desc" data-i18n="descLabel">Catatan / Deskripsi</label>
+                <input id="tx-desc" type="text" maxlength="240" data-i18n-ph="descPh" placeholder="Contoh: Makan siang, gaji bulanan, bayar listrik" />
+              </div>
+
+              <div class="form-actions">
+                <button id="tx-submit-btn" class="btn btn-primary btn-full" type="submit" data-i18n="txSubmitAdd">Simpan ke Log Harian</button>
+                <button id="tx-cancel-edit-btn" class="btn btn-outline btn-full" type="button" hidden data-i18n="txCancelEdit">Batal Edit</button>
+              </div>
+            </form>
+          </aside>
+
+          <article class="card investment-card">
+            <div class="card-head">
+              <div>
+                <h2 data-i18n="investmentPanelTitle">Investasi &amp; Target Cashflow</h2>
+                <p class="card-sub"><span data-i18n="investmentPanelSub">Alokasi pemasukan bulan</span> <span class="js-month-label">-</span></p>
+              </div>
+            </div>
+
+            <div class="investment-summary">
+              <div class="investment-summary-item">
+                <span data-i18n="investmentCurrentLabel">Investasi tercatat bulan ini</span>
+                <strong id="investment-current">Rp 0</strong>
+                <small id="investment-current-rate">0% dari pemasukan</small>
+              </div>
+              <div class="investment-summary-item investment-target-summary">
+                <span data-i18n="investmentTargetLabel">Target investasi</span>
+                <strong id="investment-target-amount">Rp 0</strong>
+                <small id="investment-progress-text">0% dari target 20%</small>
+                <div class="investment-progress" aria-hidden="true">
+                  <span id="investment-progress-fill"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="cashflow-allocation">
+              <h3 data-i18n="cashflowBreakdownTitle">Persentase dari pemasukan bulan ini</h3>
+              <div class="cashflow-row cashflow-income">
+                <div class="cashflow-row-heading">
+                  <span data-i18n="cashflowIncome">Pemasukan</span>
+                  <strong id="cashflow-income-percent">0%</strong>
+                </div>
+                <div class="cashflow-row-details"><span id="cashflow-income-amount">Rp 0</span></div>
+                <div class="cashflow-meter"><span id="cashflow-income-meter"></span></div>
+              </div>
+              <div class="cashflow-row cashflow-needs">
+                <div class="cashflow-row-heading">
+                  <span data-i18n="cashflowNeeds">Kebutuhan (maks. 50%)</span>
+                  <strong id="cashflow-needs-percent">0%</strong>
+                </div>
+                <div class="cashflow-row-details"><span id="cashflow-needs-amount">Rp 0</span></div>
+                <div class="cashflow-meter"><span id="cashflow-needs-meter"></span></div>
+              </div>
+              <div class="cashflow-row cashflow-wants">
+                <div class="cashflow-row-heading">
+                  <span data-i18n="cashflowWants">Keinginan &amp; lainnya (maks. 30%)</span>
+                  <strong id="cashflow-wants-percent">0%</strong>
+                </div>
+                <div class="cashflow-row-details"><span id="cashflow-wants-amount">Rp 0</span></div>
+                <div class="cashflow-meter"><span id="cashflow-wants-meter"></span></div>
+              </div>
+              <div class="cashflow-row cashflow-investment">
+                <div class="cashflow-row-heading">
+                  <span data-i18n="cashflowInvestment">Tabungan &amp; Investasi</span>
+                  <strong id="cashflow-investment-percent">0%</strong>
+                </div>
+                <div class="cashflow-row-details"><span id="cashflow-investment-amount">Rp 0</span></div>
+                <div class="cashflow-meter"><span id="cashflow-investment-meter"></span></div>
+              </div>
+              <div class="cashflow-row cashflow-liquid">
+                <div class="cashflow-row-heading">
+                  <span data-i18n="cashflowLiquid">Sisa Likuid sebelum Investasi</span>
+                  <strong id="cashflow-liquid-percent">0%</strong>
+                </div>
+                <div class="cashflow-row-details"><span id="cashflow-liquid-amount">Rp 0</span></div>
+                <div class="cashflow-meter"><span id="cashflow-liquid-meter"></span></div>
+              </div>
+              <div class="cashflow-row cashflow-balance">
+                <div class="cashflow-row-heading">
+                  <span data-i18n="cashflowBalance">Surplus / Defisit</span>
+                  <strong id="cashflow-balance-percent">0%</strong>
+                </div>
+                <div class="cashflow-row-details"><span id="cashflow-balance-amount">Rp 0</span></div>
+                <div class="cashflow-meter"><span id="cashflow-balance-meter"></span></div>
+              </div>
+              <p id="cashflow-no-income" class="card-sub" hidden data-i18n="cashflowNoIncome">Persentase akan dihitung setelah ada pemasukan bulan ini.</p>
+            </div>
+
+            <p class="investment-income">
+              <span data-i18n="investmentIncomeLabel">Hasil investasi / dividen bulan ini</span>
+              <strong id="investment-income">Rp 0</strong>
+            </p>
+
+            <form id="investment-target-form" class="investment-target-form">
+              <div class="field">
+                <label for="investment-target-input" data-i18n="investmentTargetInputLabel">Target investasi per bulan (% pemasukan)</label>
+                <div class="investment-target-control">
+                  <input id="investment-target-input" type="number" min="0" max="100" step="1" value="20" required />
+                  <button class="btn btn-primary" type="submit" data-i18n="investmentTargetSave">Simpan Target</button>
+                </div>
+                <small data-i18n="investmentTargetHelp">Diambil dari kategori transaksi Tabungan &amp; Investasi.</small>
+              </div>
+            </form>
+          </article>
+
+          <section class="card log-card">
+            <div class="card-head log-head">
+              <div>
+                <h2 data-i18n="logTitle">Log Pemasukan &amp; Pengeluaran Harian</h2>
+                <p class="card-sub"><span data-i18n="logSubPrefix">Rekaman harian bulan</span> <span class="js-month-label">-</span></p>
+              </div>
+              <div class="log-head-actions">
+                <button id="export-csv-btn" class="btn btn-outline btn-sm" type="button" data-i18n="exportCsvBtn">Ekspor CSV</button>
+                <button id="go-ai-from-log-btn" class="btn btn-emerald btn-sm" type="button" data-i18n="goAiBtn">Analisis AI</button>
+              </div>
+            </div>
+
+            <div class="filter-bar">
+              <input id="filter-search" type="search" data-i18n-ph="searchPh" placeholder="Cari catatan, kategori, metode..." />
+              <select id="filter-type">
+                <option value="" data-i18n="allTypes">Semua Jenis</option>
+                <option value="income" data-i18n="typeIncome">Pemasukan</option>
+                <option value="expense" data-i18n="typeExpense">Pengeluaran</option>
+              </select>
+              <select id="filter-category">
+                <option value="">Semua Kategori</option>
+              </select>
+            </div>
+
+            <div id="tx-log-list" class="tx-log-list"></div>
+          </section>
+        </div>
+      </section>
+
+      <!-- VIEW 2: RECAP & MONTHLY CHARTS -->
+      <section id="view-recap" class="view-section" hidden>
+        <div class="recap-banner card">
+          <div>
+            <h2 data-i18n="recapBannerTitle">Rekapan &amp; Grafik Keuangan Bulanan</h2>
+            <p class="card-sub" data-i18n="recapBannerSub">Data grafik di bawah ini terhubung langsung ke Bemvu AI untuk analisis tren bulanan Anda.</p>
+          </div>
+          <button id="analyze-from-recap-btn" class="btn btn-emerald" type="button" data-i18n="analyzeChartBtn">Analisis Grafik Ini dengan AI</button>
+        </div>
+
+        <div class="charts-grid">
+          <article class="card chart-card chart-wide">
+            <div class="card-head">
+              <div>
+                <h3 data-i18n="chart6mTitle">Grafik Arus Kas 6 Bulan Terakhir</h3>
+                <p class="card-sub" data-i18n="chart6mSub">Perbandingan Pemasukan, Pengeluaran, dan Surplus Bersih per bulan</p>
+              </div>
+              <div class="chart-legend">
+                <span><i class="dot dot-emerald"></i> <span data-i18n="legendIncome">Pemasukan</span></span>
+                <span><i class="dot dot-rose"></i> <span data-i18n="legendExpense">Pengeluaran</span></span>
+                <span><i class="dot dot-navy"></i> <span data-i18n="legendNet">Surplus Bersih</span></span>
+              </div>
+            </div>
+            <div class="canvas-wrap">
+              <canvas id="monthly-chart" height="280"></canvas>
+              <div id="monthly-tooltip" class="chart-tooltip" hidden></div>
+            </div>
+          </article>
+
+          <article class="card chart-card">
+            <div class="card-head">
+              <div>
+                <h3><span data-i18n="chartDailyPrefix">Grafik Harian</span> (<span class="js-month-label">-</span>)</h3>
+                <p class="card-sub" data-i18n="chartDailySub">Pemasukan &amp; pengeluaran tanggal 1–31</p>
+              </div>
+            </div>
+            <div class="canvas-wrap">
+              <canvas id="daily-chart" height="240"></canvas>
+              <div id="daily-tooltip" class="chart-tooltip" hidden></div>
+            </div>
+          </article>
+
+          <article class="card chart-card">
+            <div class="card-head">
+              <div>
+                <h3 data-i18n="catBreakdownTitle">Komposisi Pengeluaran per Kategori</h3>
+                <p class="card-sub"><span data-i18n="catBreakdownSubPrefix">Distribusi belanja bulan</span> <span class="js-month-label">-</span></p>
+              </div>
+            </div>
+            <div id="category-breakdown-list" class="breakdown-list"></div>
+          </article>
+        </div>
+
+        <article class="card table-card">
+          <div class="card-head">
+            <div>
+              <h3 data-i18n="tableRecapTitle">Tabel Rekapan Bulanan (6 Bulan)</h3>
+              <p class="card-sub" data-i18n="tableRecapSub">Ringkasan pemasukan, pengeluaran, selisih, dan rasio tabungan setiap bulan.</p>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table class="recap-table">
+              <thead>
+                <tr>
+                  <th data-i18n="thMonth">Bulan</th>
+                  <th data-i18n="thCount">Jumlah Log</th>
+                  <th data-i18n="thIncome">Total Pemasukan</th>
+                  <th data-i18n="thExpense">Total Pengeluaran</th>
+                  <th data-i18n="thNet">Surplus / Defisit</th>
+                  <th data-i18n="thSavingsRate">Rasio Tabungan</th>
+                </tr>
+              </thead>
+              <tbody id="monthly-recap-tbody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <!-- VIEW 3: AI INSIGHT -->
+      <section id="view-ai" class="view-section" hidden>
+        <div class="ai-hero card">
+          <div class="ai-score-panel">
+            <div class="score-ring-wrap">
+              <svg class="score-ring" viewBox="0 0 120 120">
+                <circle class="score-track" cx="60" cy="60" r="50" />
+                <circle id="ai-score-circle" class="score-fill" cx="60" cy="60" r="50" />
+              </svg>
+              <div class="score-center">
+                <strong id="ai-score-num">0</strong>
+                <span>/ 100</span>
+              </div>
+            </div>
+            <div>
+              <span id="ai-grade-badge" class="badge">...</span>
+              <h2 id="ai-headline">Bemvu AI</h2>
+              <p id="ai-chart-analysis" class="ai-narrative"></p>
+              <div id="ai-gemini-box" class="ai-gemini-box" hidden></div>
+            </div>
+          </div>
+          <div class="ai-hero-actions">
+            <button id="refresh-ai-btn" class="btn btn-emerald" type="button" data-i18n="refreshAiBtn">Jalankan Analisis Ulang</button>
+          </div>
+        </div>
+
+        <div class="ai-grid">
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3 data-i18n="auditTitle">Audit Aturan Bijak 50 / 30 / 20</h3>
+                <p class="card-sub"><span data-i18n="auditSubPrefix">Perbandingan realisasi bulan</span> <span class="js-month-label">-</span> <span data-i18n="auditSubSuffix">terhadap porsi ideal.</span></p>
+              </div>
+            </div>
+            <div id="ai-allocation-bars" class="allocation-bars"></div>
+            <div class="ai-mini-metrics" id="ai-mini-metrics"></div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3 data-i18n="adviceTitle">Arahan &amp; Langkah Keuangan Bijak</h3>
+                <p class="card-sub" data-i18n="adviceSub">Rekomendasi spesifik berdasarkan catatan &amp; grafik bulanan Anda.</p>
+              </div>
+            </div>
+            <div id="ai-insights-list" class="insights-list"></div>
+            <div class="wise-steps-box">
+              <h4 data-i18n="wiseStepsTitle">Rencana Aksi Prioritas</h4>
+              <ul id="ai-wise-steps" class="wise-steps"></ul>
+            </div>
+          </article>
+        </div>
+
+        <article class="card ai-chat-card">
+          <div class="card-head">
+            <div>
+              <h3 data-i18n="askAiTitle">Tanya Bemvu AI</h3>
+              <p class="card-sub" data-i18n="askAiSub">Tanyakan kelayakan belanja, evaluasi kategori, atau analisis grafik bulanan Anda.</p>
+            </div>
+          </div>
+          <div class="quick-prompts">
+            <button type="button" class="chip-btn js-prompt-btn" data-prompt-key="prompt1Text" data-i18n="prompt1Label">Analisis grafik bulanan</button>
+            <button type="button" class="chip-btn js-prompt-btn" data-prompt-key="prompt2Text" data-i18n="prompt2Label">Pos paling boros</button>
+            <button type="button" class="chip-btn js-prompt-btn" data-prompt-key="prompt3Text" data-i18n="prompt3Label">Audit gaji 50/30/20</button>
+            <button type="button" class="chip-btn js-prompt-btn" data-prompt-key="prompt4Text" data-i18n="prompt4Label">Cek aman beli Rp 500rb</button>
+          </div>
+          <div id="ai-chat-history" class="ai-chat-history"></div>
+          <form id="ai-chat-form" class="ai-chat-form">
+            <input id="ai-chat-input" type="text" data-i18n-ph="askAiPh" placeholder="Tulis pertanyaan keuangan Anda (misal: Apakah aman beli HP Rp 2jt bulan ini?)" required />
+            <button class="btn btn-primary" type="submit" data-i18n="sendBtn">Kirim</button>
+          </form>
+        </article>
+      </section>
+
+      <!-- VIEW: ACTIVITY LOGS -->
+      <section id="view-logs" class="view-section" hidden>
+        <div class="module-page-head">
+          <h2 data-i18n="logsViewTitle">Log Aktivitas Akun</h2>
+          <p data-i18n="logsViewSub">Riwayat perubahan akun, transaksi, dan analisis.</p>
+        </div>
+        <div class="logs-grid">
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3 data-i18n="aiHistoryTitle">Riwayat Skor Analisis AI Tersimpan</h3>
+              </div>
+            </div>
+            <div id="ai-report-history" class="ai-report-history"></div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3 data-i18n="actLogsTitle">Log Aktivitas Database Akun</h3>
+                <p class="card-sub" data-i18n="actLogsSub">Jejak audit login, pencatatan transaksi, perubahan data, dan analisis AI.</p>
+              </div>
+              <button id="refresh-logs-btn" class="btn btn-outline btn-sm" type="button" data-i18n="refreshLogsBtn">Muat Ulang</button>
+            </div>
+            <div id="activity-log-list" class="activity-log-list"></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- VIEW: ACCOUNT SETTINGS -->
+      <section id="view-settings" class="view-section finance-view" hidden>
+        <div class="module-page-head">
+          <h2 data-i18n="settingsTitle">Pengaturan Akun</h2>
+          <p data-i18n="settingsSub">Kelola profil, foto, kata sandi, dan target pengeluaran Anda.</p>
+        </div>
+        <div class="settings-grid">
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3 data-i18n="profileEditTitle">Edit Profil</h3>
+                <p class="card-sub" data-i18n="profileEditSub">Perbarui nama dan target pengeluaran bulanan.</p>
+              </div>
+            </div>
+            <form id="profile-form" class="tx-form">
+              <div class="field">
+                <label for="profile-name" data-i18n="fullNameLabel">Nama Lengkap</label>
+                <input id="profile-name" type="text" required minlength="2" />
+              </div>
+              <div class="field">
+                <label for="profile-budget" data-i18n="settingsBudgetLabel">Target Batas Pengeluaran Bulanan (Rp)</label>
+                <input id="profile-budget" type="number" min="0" step="1" data-i18n-ph="settingsBudgetPh" placeholder="0 (belum diatur)" />
+              </div>
+              <button class="btn btn-primary" type="submit" data-i18n="saveSettingsBtn">Simpan Pengaturan</button>
+            </form>
+          </article>
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3 data-i18n="profilePhotoTitle">Foto Profil</h3>
+                <p class="card-sub" data-i18n="profilePhotoSub">Unggah foto JPG, PNG, atau WebP. Foto akan disimpan di akun Anda.</p>
+              </div>
+            </div>
+            <form id="profile-photo-form" class="tx-form">
+              <div class="profile-photo-layout">
+                <div id="profile-photo-preview" class="profile-photo-preview" aria-hidden="true">B</div>
+                <div class="field">
+                  <label for="profile-photo-input" data-i18n="profilePhotoLabel">Pilih foto</label>
+                  <input id="profile-photo-input" type="file" accept="image/jpeg,image/png,image/webp" />
+                  <small data-i18n="profilePhotoHelp">Foto akan diperkecil otomatis agar aman diunggah.</small>
+                </div>
+              </div>
+              <div class="profile-photo-actions">
+                <button id="profile-photo-submit" class="btn btn-primary" type="submit" disabled data-i18n="profilePhotoSave">Simpan Foto</button>
+                <button id="profile-photo-remove-btn" class="btn btn-outline" type="button" hidden data-i18n="profilePhotoRemove">Hapus Foto</button>
+              </div>
+            </form>
+          </article>
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3 data-i18n="passwordChangeTitle">Ubah Kata Sandi</h3>
+                <p class="card-sub" data-i18n="passwordChangeSub">Masukkan kata sandi saat ini untuk mengamankan perubahan.</p>
+              </div>
+            </div>
+            <form id="change-password-form" class="tx-form">
+              <div class="field">
+                <label for="current-password" data-i18n="currentPasswordLabel">Kata sandi saat ini</label>
+                <input id="current-password" type="password" minlength="6" maxlength="128" required autocomplete="current-password" />
+              </div>
+              <div class="field">
+                <label for="new-account-password" data-i18n="newPasswordLabel">Kata Sandi Baru</label>
+                <input id="new-account-password" type="password" minlength="6" maxlength="128" required autocomplete="new-password" />
+                <small data-i18n="passwordLengthHelp">Gunakan 6–128 karakter.</small>
+              </div>
+              <div class="field">
+                <label for="confirm-account-password" data-i18n="confirmPasswordLabel">Ulangi kata sandi baru</label>
+                <input id="confirm-account-password" type="password" minlength="6" maxlength="128" required autocomplete="new-password" />
+              </div>
+              <button class="btn btn-primary" type="submit" data-i18n="passwordChangeBtn">Ubah Kata Sandi</button>
+            </form>
+          </article>
+        </div>
+      </section>
+
+      <section id="view-budgets" class="view-section finance-view" hidden>
+        <div class="module-page-head">
+          <h2 data-i18n="budgetTitle">Anggaran per Kategori</h2>
+          <p data-i18n="budgetSub">Atur batas pengeluaran bulanan dan pantau peringatan saat pemakaian mendekati batas.</p>
+        </div>
+        <div id="budget-alerts" class="finance-alert-list" aria-live="polite"></div>
+        <div id="budget-summary" class="finance-summary-grid"></div>
+        <div class="finance-columns">
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3 data-i18n="budgetFormTitle">Atur Anggaran Kategori</h3>
+                <p class="card-sub"><span data-i18n="budgetMonthPrefix">Anggaran bulan</span> <span class="js-month-label">-</span></p>
+              </div>
+            </div>
+            <form id="category-budget-form" class="tx-form">
+              <div class="field">
+                <label for="budget-category" data-i18n="categoryLabel">Kategori</label>
+                <select id="budget-category" required></select>
+              </div>
+              <div class="field">
+                <label for="budget-monthly-limit" data-i18n="budgetLimitLabel">Batas per bulan</label>
+                <input id="budget-monthly-limit" type="number" min="1" step="1" required />
+              </div>
+              <button class="btn btn-primary" type="submit" data-i18n="budgetSaveBtn">Simpan Anggaran</button>
+            </form>
+          </article>
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3 data-i18n="budgetProgressTitle">Pemakaian Anggaran</h3>
+                <p class="card-sub" data-i18n="budgetProgressSub">Peringatan muncul saat pemakaian mencapai 80% atau lebih.</p>
+              </div>
+            </div>
+            <div id="budget-list" class="finance-list"></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="view-debts" class="view-section finance-view" hidden>
+        <div class="module-page-head">
+          <h2 data-i18n="debtViewTitle">Hutang &amp; Piutang</h2>
+          <p data-i18n="debtViewSub">Pantau cicilan, jatuh tempo, sisa kewajiban, piutang, dan riwayat pembayaran.</p>
+        </div>
+        <div id="debt-view-summary" class="finance-summary-grid"></div>
+        <div class="finance-columns">
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3 data-i18n="debtCreateTitle">Catat Hutang atau Piutang</h3>
+                <p class="card-sub" data-i18n="debtCreateSub">Pembayaran yang dicatat di sini ikut masuk ke arus kas.</p>
+              </div>
+            </div>
+            <form id="finance-debt-form" class="tx-form">
+              <div class="field">
+                <label for="finance-debt-kind" data-i18n="debtKindLabel">Jenis catatan</label>
+                <select id="finance-debt-kind">
+                  <option value="payable" data-i18n="debtPayable">Hutang saya</option>
+                  <option value="receivable" data-i18n="debtReceivable">Piutang saya</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="finance-debt-title" data-i18n="debtNameLabel">Nama / sumber</label>
+                <input id="finance-debt-title" type="text" minlength="2" maxlength="120" required />
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="finance-debt-amount" data-i18n="debtPrincipalLabel">Total nominal</label>
+                  <input id="finance-debt-amount" type="number" min="1" step="1" required />
+                </div>
+                <div class="field">
+                  <label for="finance-debt-installment" data-i18n="debtInstallmentLabel">Cicilan per bulan</label>
+                  <input id="finance-debt-installment" type="number" min="0" step="1" />
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="finance-debt-due" data-i18n="dueDateShort">Jatuh tempo</label>
+                  <input id="finance-debt-due" type="date" />
+                </div>
+                <div class="field">
+                  <label for="finance-debt-notes" data-i18n="notesLabel">Catatan</label>
+                  <input id="finance-debt-notes" type="text" maxlength="240" />
+                </div>
+              </div>
+              <button class="btn btn-primary" type="submit" data-i18n="debtSaveBtn">Simpan Catatan</button>
+            </form>
+          </article>
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3 data-i18n="debtListTitle">Daftar Hutang &amp; Piutang</h3>
+                <p class="card-sub" data-i18n="debtHistorySub">Catat pembayaran untuk memperbarui sisa dan riwayat.</p>
+              </div>
+            </div>
+            <div id="finance-debt-list" class="finance-list"></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="view-wallets" class="view-section finance-view" hidden>
+        <div class="module-page-head">
+          <h2 data-i18n="walletViewTitle">Dompet &amp; Rekening</h2>
+          <p data-i18n="walletViewSub">Lihat saldo per sumber dana; transaksi dan transfer memperbarui saldo tanpa mengubah total pemasukan/pengeluaran.</p>
+        </div>
+        <div id="wallet-summary" class="finance-summary-grid"></div>
+        <div class="finance-columns">
+          <article class="card">
+            <div class="card-head">
+              <div><h3 data-i18n="walletCreateTitle">Tambah Dompet / Rekening</h3></div>
+            </div>
+            <form id="wallet-form" class="tx-form">
+              <div class="field">
+                <label for="wallet-name" data-i18n="walletNameLabel">Nama dompet</label>
+                <input id="wallet-name" type="text" minlength="2" maxlength="60" required />
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="wallet-type" data-i18n="walletTypeLabel">Jenis</label>
+                  <select id="wallet-type">
+                    <option value="cash" data-i18n="walletCash">Tunai</option>
+                    <option value="bank" data-i18n="walletBank">Bank</option>
+                    <option value="ewallet" data-i18n="walletEwallet">E-wallet</option>
+                    <option value="other" data-i18n="walletOther">Lainnya</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="wallet-opening-balance" data-i18n="walletOpeningLabel">Saldo awal</label>
+                  <input id="wallet-opening-balance" type="number" min="0" step="1" value="0" />
+                </div>
+              </div>
+              <button class="btn btn-primary" type="submit" data-i18n="walletCreateBtn">Tambah Dompet</button>
+            </form>
+          </article>
+          <article class="card">
+            <div class="card-head">
+              <div><h3 data-i18n="walletTransferTitle">Transfer Antar Dompet</h3></div>
+            </div>
+            <form id="wallet-transfer-form" class="tx-form">
+              <div class="field-row">
+                <div class="field">
+                  <label for="wallet-transfer-from" data-i18n="walletFromLabel">Dari</label>
+                  <select id="wallet-transfer-from" required></select>
+                </div>
+                <div class="field">
+                  <label for="wallet-transfer-to" data-i18n="walletToLabel">Ke</label>
+                  <select id="wallet-transfer-to" required></select>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="wallet-transfer-amount" data-i18n="walletTransferAmountLabel">Nominal transfer</label>
+                  <input id="wallet-transfer-amount" type="number" min="1" step="1" required />
+                </div>
+                <div class="field">
+                  <label for="wallet-transfer-date" data-i18n="dateLabel">Tanggal</label>
+                  <input id="wallet-transfer-date" type="date" required />
+                </div>
+              </div>
+              <button class="btn btn-primary" type="submit" data-i18n="walletTransferBtn">Transfer</button>
+            </form>
+          </article>
+        </div>
+        <article class="card">
+          <div class="card-head"><div><h3 data-i18n="walletBalancesTitle">Saldo Dompet</h3><p class="card-sub" data-i18n="walletOpeningHelp">Saldo dihitung dari saldo awal, transaksi, dan transfer tercatat.</p></div></div>
+          <div id="wallet-list" class="finance-wallet-grid"></div>
+        </article>
+        <article class="card">
+          <div class="card-head"><div><h3 data-i18n="walletHistoryTitle">Riwayat Transfer</h3></div></div>
+          <div id="wallet-transfer-list" class="finance-list"></div>
+        </article>
+      </section>
+
+      <section id="view-investments" class="view-section finance-view" hidden>
+        <div class="module-page-head">
+          <h2 data-i18n="investmentViewTitle">Investasi</h2>
+          <p data-i18n="investmentViewSub">Pantau setoran, hasil investasi, dan tren enam bulan per jenis investasi.</p>
+        </div>
+        <div id="investment-summary" class="finance-summary-grid"></div>
+        <div id="investment-insight" class="finance-alert is-neutral" role="status"></div>
+        <div class="investment-analytics-grid">
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3 data-i18n="investmentTrendTitle">Tren Investasi 6 Bulan</h3>
+                <p class="card-sub" data-i18n="investmentTrendSub">Perbandingan setoran investasi dan hasil/dividen.</p>
+              </div>
+            </div>
+            <div class="investment-chart-legend">
+              <span><i class="investment-legend-dot is-contribution"></i><span data-i18n="investmentContributions">Setoran</span></span>
+              <span><i class="investment-legend-dot is-return"></i><span data-i18n="investmentReturns">Hasil / dividen</span></span>
+            </div>
+            <div id="investment-trend-chart" class="investment-chart" aria-live="polite"></div>
+          </article>
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3 data-i18n="investmentBreakdownTitle">Komposisi Jenis Investasi</h3>
+                <p class="card-sub"><span data-i18n="investmentBreakdownSub">Setoran bulan</span> <span class="js-month-label">-</span></p>
+              </div>
+            </div>
+            <div id="investment-type-breakdown" class="investment-type-breakdown"></div>
+          </article>
+        </div>
+        <div class="finance-columns">
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3 data-i18n="investmentEntryTitle">Catat Setoran atau Hasil</h3>
+                <p class="card-sub" data-i18n="investmentEntrySub">Setoran masuk sebagai pengeluaran; hasil/dividen sebagai pemasukan.</p>
+              </div>
+            </div>
+            <form id="investment-entry-form" class="tx-form">
+              <div class="field">
+                <label for="investment-entry-kind" data-i18n="investmentEntryKindLabel">Jenis pencatatan</label>
+                <select id="investment-entry-kind">
+                  <option value="contribution" data-i18n="investmentEntryContribution">Setoran investasi</option>
+                  <option value="return" data-i18n="investmentEntryReturn">Hasil / dividen</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="investment-entry-type" data-i18n="investmentTypeLabel">Jenis investasi</label>
+                <select id="investment-entry-type">
+                  <option value="crypto" data-i18n="investmentTypeCrypto">Crypto</option>
+                  <option value="jamsostek" data-i18n="investmentTypeJamsostek">Jamsostek / BPJS Ketenagakerjaan</option>
+                  <option value="stocks" data-i18n="investmentTypeStocks">Saham</option>
+                  <option value="mutual_fund" data-i18n="investmentTypeMutualFund">Reksadana</option>
+                  <option value="deposit" data-i18n="investmentTypeDeposit">Deposito</option>
+                  <option value="gold" data-i18n="investmentTypeGold">Emas</option>
+                  <option value="bonds" data-i18n="investmentTypeBonds">Obligasi</option>
+                  <option value="savings" data-i18n="investmentTypeSavings">Tabungan</option>
+                  <option value="emergency_fund" data-i18n="investmentTypeEmergencyFund">Dana darurat</option>
+                  <option value="other" data-i18n="investmentTypeOther">Lainnya</option>
+                </select>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="investment-entry-amount" data-i18n="amountLabel">Nominal</label>
+                  <input id="investment-entry-amount" type="number" min="1" step="1" required />
+                </div>
+                <div class="field">
+                  <label for="investment-entry-date" data-i18n="dateLabel">Tanggal</label>
+                  <input id="investment-entry-date" type="date" required />
+                </div>
+              </div>
+              <div class="field">
+                <label for="investment-entry-method" data-i18n="methodLabel">Metode Pembayaran / Dompet</label>
+                <select id="investment-entry-method"></select>
+              </div>
+              <div class="field">
+                <label for="investment-entry-description" data-i18n="descLabel">Catatan / Deskripsi</label>
+                <input id="investment-entry-description" type="text" maxlength="240" />
+              </div>
+              <button class="btn btn-primary" type="submit" data-i18n="investmentEntrySave">Simpan Catatan Investasi</button>
+            </form>
+          </article>
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <h3 data-i18n="investmentHistoryTitle">Riwayat Investasi</h3>
+                <p class="card-sub" data-i18n="investmentHistorySub">Maksimal 100 catatan terbaru.</p>
+              </div>
+            </div>
+            <div id="investment-transaction-list" class="finance-list"></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="view-goals" class="view-section finance-view" hidden>
+        <div class="module-page-head">
+          <h2 data-i18n="goalViewTitle">Target Tabungan</h2>
+          <p data-i18n="goalViewSub">Tetapkan tujuan, pantau progres, dan catat setoran. Setoran target tidak membuat transaksi cashflow otomatis.</p>
+        </div>
+        <div class="finance-columns">
+          <article class="card">
+            <div class="card-head"><div><h3 data-i18n="goalCreateTitle">Buat Target Baru</h3></div></div>
+            <form id="goal-form" class="tx-form">
+              <div class="field">
+                <label for="goal-title" data-i18n="goalNameLabel">Nama target</label>
+                <input id="goal-title" type="text" minlength="2" maxlength="120" required />
+              </div>
+              <div class="field">
+                <label for="goal-target-amount" data-i18n="goalTargetLabel">Nominal target</label>
+                <input id="goal-target-amount" type="number" min="1" step="1" required />
+              </div>
+              <div class="field">
+                <label for="goal-due-date" data-i18n="goalDueLabel">Target tercapai pada</label>
+                <input id="goal-due-date" type="date" />
+              </div>
+              <button class="btn btn-primary" type="submit" data-i18n="goalCreateBtn">Buat Target</button>
+            </form>
+          </article>
+          <article class="card">
+            <div class="card-head"><div><h3 data-i18n="goalListTitle">Progres Tabungan</h3></div></div>
+            <div id="goal-list" class="finance-list"></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="view-recurring" class="view-section finance-view" hidden>
+        <div class="module-page-head">
+          <h2 data-i18n="recurringViewTitle">Tagihan &amp; Transaksi Rutin</h2>
+          <p data-i18n="recurringViewSub">Buat pengingat berulang. Transaksi hanya dicatat setelah Anda menekan konfirmasi.</p>
+        </div>
+        <div id="recurring-alerts" class="finance-alert-list" aria-live="polite"></div>
+        <div class="finance-columns">
+          <article class="card">
+            <div class="card-head"><div><h3 data-i18n="recurringCreateTitle">Tambah Jadwal Rutin</h3></div></div>
+            <form id="recurring-form" class="tx-form">
+              <div class="field-row">
+                <div class="field">
+                  <label for="recurring-type" data-i18n="recurringTypeLabel">Jenis transaksi</label>
+                  <select id="recurring-type">
+                    <option value="expense" data-i18n="typeExpense">Pengeluaran</option>
+                    <option value="income" data-i18n="typeIncome">Pemasukan</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="recurring-amount" data-i18n="amountLabel">Nominal</label>
+                  <input id="recurring-amount" type="number" min="1" step="1" required />
+                </div>
+              </div>
+              <div class="field">
+                <label for="recurring-category" data-i18n="categoryLabel">Kategori</label>
+                <select id="recurring-category" required></select>
+              </div>
+              <div class="field">
+                <label for="recurring-description" data-i18n="descLabel">Catatan / Deskripsi</label>
+                <input id="recurring-description" type="text" maxlength="240" />
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="recurring-payment-method" data-i18n="methodLabel">Dompet</label>
+                  <select id="recurring-payment-method"></select>
+                </div>
+                <div class="field">
+                  <label for="recurring-frequency" data-i18n="recurringFrequencyLabel">Frekuensi</label>
+                  <select id="recurring-frequency">
+                    <option value="weekly" data-i18n="frequencyWeekly">Mingguan</option>
+                    <option value="monthly" data-i18n="frequencyMonthly">Bulanan</option>
+                    <option value="yearly" data-i18n="frequencyYearly">Tahunan</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label for="recurring-next-due" data-i18n="recurringNextDueLabel">Jatuh tempo berikutnya</label>
+                <input id="recurring-next-due" type="date" required />
+              </div>
+              <button class="btn btn-primary" type="submit" data-i18n="recurringCreateBtn">Simpan Pengingat</button>
+            </form>
+          </article>
+          <article class="card">
+            <div class="card-head"><div><h3 data-i18n="recurringListTitle">Jadwal Tersimpan</h3></div></div>
+            <div id="recurring-list" class="finance-list"></div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- DEBT MANAGER MODAL -->
+  <dialog id="debt-modal" class="debt-modal">
+    <div class="debt-modal-inner">
+      <div class="card-head">
+        <div>
+          <h3 data-i18n="debtModalTitle">Kelola Catatan Hutang &amp; Pelunasan</h3>
+          <p class="card-sub" data-i18n="debtModalSub">Sisa hutang otomatis berkurang setiap Anda mencatat pengeluaran kategori Bayar Hutang.</p>
+        </div>
+        <button id="close-debt-modal-btn" class="icon-btn" type="button" aria-label="Tutup">&times;</button>
+      </div>
+
+      <div class="debt-summary-strip">
+        <div class="mini-stat">
+          <span data-i18n="debtPrincipal">Total Pokok Hutang</span>
+          <strong id="debt-modal-principal">Rp 0</strong>
+        </div>
+        <div class="mini-stat">
+          <span data-i18n="debtPaid">Total Sudah Dibayar</span>
+          <strong id="debt-modal-paid" class="text-emerald">Rp 0</strong>
+        </div>
+        <div class="mini-stat">
+          <span data-i18n="debtRemaining">Sisa Hutang</span>
+          <strong id="debt-modal-remaining" class="text-rose">Rp 0</strong>
+        </div>
+      </div>
+
+      <form id="debt-form" class="tx-form">
+        <div class="field-row">
+          <div class="field">
+            <label for="debt-title" data-i18n="debtNameLabel">Nama / Sumber Hutang</label>
+            <input id="debt-title" type="text" required minlength="2" data-i18n-ph="debtNamePh" placeholder="Contoh: Cicilan Motor / Pinjaman Teman" />
+          </div>
+          <div class="field">
+            <label for="debt-amount" data-i18n="debtAmtLabel">Nominal Pokok Hutang (Rp)</label>
+            <input id="debt-amount" type="number" min="1" step="1" required data-i18n-ph="debtAmtPh" placeholder="Contoh: 5000000" />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="debt-due" data-i18n="debtDueLabel">Jatuh Tempo (Opsional)</label>
+            <input id="debt-due" type="date" />
+          </div>
+          <div class="field">
+            <label for="debt-notes" data-i18n="debtNotesLabel">Catatan (Opsional)</label>
+            <input id="debt-notes" type="text" maxlength="200" data-i18n-ph="debtNotesPh" placeholder="Misal: Tenor 6 bulan" />
+          </div>
+        </div>
+        <div class="debt-modal-actions">
+          <button class="btn btn-primary" type="submit" data-i18n="saveDebtBtn">Simpan Catatan Hutang</button>
+          <button id="quick-pay-debt-btn" class="btn btn-emerald" type="button" data-i18n="quickPayDebtBtn">Catat Bayar Hutang Sekarang</button>
+        </div>
+      </form>
+
+      <div class="debt-list-wrap">
+        <h4 data-i18n="debtListTitle">Daftar Hutang Tercatat</h4>
+        <div id="debt-list" class="debt-list"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="i18n.js"></script>
+  <script src="finance-modules.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
